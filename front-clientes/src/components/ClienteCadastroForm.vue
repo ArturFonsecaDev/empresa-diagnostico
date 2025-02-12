@@ -29,6 +29,7 @@
       />
 
       <q-btn
+        :loading = "loading"
         label="Cadastrar"
         type="submit"
         color="primary"
@@ -50,6 +51,7 @@ export default {
         email: "",
         telefone: "",
       },
+      loading: false
     };
   },
   methods: {
@@ -57,10 +59,11 @@ export default {
       return phone.replace(/\D/g, ''); // Remove qualquer coisa que não seja número
     },
     async submitForm() {
+      this.loading = true;
       if (!this.$refs.form.validate()) {
+        this.loading = false;
         return; // Se o formulário não for válido, não envia
       }
-
       const url = 'http://127.0.0.1:8000/api/clientes';
 
       try{
@@ -88,9 +91,11 @@ export default {
           this.$router.push(`/perguntas`);
       }
       else{
+        this.loading = false;
         throw new Error('Não foi possível realizar o cadastro do cliente');
       }
       }catch(e){
+        this.loading = false;
         this.enviando = false;
         console.log(e);
       }

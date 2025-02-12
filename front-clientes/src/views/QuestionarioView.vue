@@ -16,7 +16,7 @@
           <p v-if="erros.includes(pergunta.id)" class="mensagem-erro">Esta pergunta precisa ser respondida.</p>
           <hr />
         </div>
-        <q-btn type="submit" color="primary" label="Enviar" />
+        <q-btn type="submit" color="primary" label="Enviar" :loading="loading" />
       </q-form>
       <!-- sem perguntas -->
       <div class="sem-pergunta" v-else-if="!respostasEnviadas">
@@ -51,7 +51,8 @@ export default {
       respostasCliente: [],
       respostasEnviadas: false,
       categoriaPredominante: '',
-      erros: [] // Armazena perguntas não respondidas
+      erros: [], // Armazena perguntas não respondidas
+      loading: false
     };
   },
   methods: {
@@ -70,14 +71,18 @@ export default {
         return;
       }
 
+      this.loading = true;
+
       // Valida se todas as perguntas foram respondidas
       this.perguntas.forEach((pergunta) => {
         if (!this.respostasCliente[pergunta.id]) {
+          this.loading = false;
           this.erros.push(pergunta.id);
         }
       });
 
       if (this.erros.length > 0) {
+        this.loading = false;
         alert('Por favor, responda todas as perguntas antes de enviar.');
         return;
       }
@@ -107,6 +112,7 @@ export default {
       const response = await data.json();
 
       if (data.status !== 200) {
+        this.loading = false;
         console.error('Erro ao enviar respostas:', response);
         alert('Erro ao enviar respostas');
         return;
@@ -117,6 +123,7 @@ export default {
 
       console.log('SUCESSO!!');
       this.respostasEnviadas = true;
+      this.loading = false;
     },
   },
   computed: {
