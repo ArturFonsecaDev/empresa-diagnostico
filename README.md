@@ -1,6 +1,6 @@
 # Projeto de Diagnóstico de Clientes
 
-Este projeto tem como objetivo criar um sistema de diagnóstico para clientes, onde cada cliente preenche suas informações pessoais e responde a questões específicas. Os dados coletados são armazenados em um banco de dados **PostgreSQL** e exibidos em uma interface administrativa para análise. A interface inclui gráficos interativos que apresentam o total de respostas por categoria, além de informações detalhadas sobre o cliente.
+Este projeto tem como objetivo criar um sistema de diagnóstico para clientes, onde cada cliente preenche suas informações pessoais e responde a questões específicas. No final o cliente possui o resultado do teste. Os dados coletados são armazenados em um banco de dados **PostgreSQL**
 
 ## Tecnologias Utilizadas
 
