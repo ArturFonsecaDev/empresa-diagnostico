@@ -36,6 +36,11 @@ class RespostaClienteController extends Controller
         if ($respostaModel) {
             $categoriaId = $respostaModel->categoria_id;
 
+            $categoria = Categoria::find($categoriaId);
+            if($categoria->descricao == "Categoria 'Não'"){
+                continue;
+            }
+
             // Incrementar a contagem da categoria
             if (isset($categoriasContagem[$categoriaId])) {
                 $categoriasContagem[$categoriaId]++;
@@ -46,17 +51,14 @@ class RespostaClienteController extends Controller
         }
     }
 
-    // Encontrar a categoria_id com a maior contagem
     $categoriaPredominanteId = array_keys($categoriasContagem, max($categoriasContagem))[0];
 
-    // Buscar a descrição da categoria predominante
     $categoriaPredominante = Categoria::find($categoriaPredominanteId);
 
-    // Verifique se a categoria foi encontrada
     if ($categoriaPredominante) {
         $descricaoCategoria = $categoriaPredominante->descricao;
     } else {
-        $descricaoCategoria = null; // Caso a categoria não seja encontrada
+        $descricaoCategoria = null;
     }
 
     return response()->json([
@@ -65,8 +67,6 @@ class RespostaClienteController extends Controller
         'descricao_categoria' => $descricaoCategoria
     ]);
 }
-
-
 
     public function show(string $id){
         $resposta_cliente = RespostaCliente::find($id);

@@ -60,7 +60,7 @@ class RespostaController extends Controller
             ->with('resposta.categoria')
             ->get();
 
-        $categoriasFixas = ['Categoria A', 'Categoria B', 'Categoria C', 'Categoria D'];
+        $categoriasFixas = ['Categoria A', 'Categoria B', 'Categoria C'];
 
         $categorias = [];
 

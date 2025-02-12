@@ -13,7 +13,7 @@ class PerguntaController extends Controller
         return Pergunta::all();
     }
 
-    public function show($id){
+    public function show(string $id){
         $pergunta = Pergunta::find($id);
 
         if(!$pergunta){
@@ -33,7 +33,7 @@ class PerguntaController extends Controller
         return response()->json($pergunta);
     }
 
-    public function destroy($id){
+    public function destroy(string $id){
         $pergunta = Pergunta::find($id);
 
         if(!$pergunta){
