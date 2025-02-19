@@ -1,5 +1,6 @@
 <template>
   <div class="fundo">
+<<<<<<< HEAD
     <!-- Perguntas -->
     <q-form @submit.prevent="submitForm" v-if="isThereAnyPergunta && !respostasEnviadas">
       <div v-for="pergunta in perguntas" :key="pergunta.id" class="pergunta-container" :class="{ 'erro': erros.includes(pergunta.id) }">
@@ -14,6 +15,29 @@
         />
         <p v-if="erros.includes(pergunta.id)" class="mensagem-erro">Esta pergunta precisa ser respondida.</p>
         <hr />
+=======
+    <q-card>
+      <!-- Perguntas -->
+      <q-form @submit.prevent="submitForm" v-if="isThereAnyPergunta && !respostasEnviadas">
+        <div v-for="pergunta in perguntas" :key="pergunta.id" class="pergunta-container" :class="{ 'erro': erros.includes(pergunta.id) }">
+          <h2>{{ pergunta.texto_pergunta }}</h2>
+          <q-option-group
+            v-if="getOpcoes(pergunta.id).length"
+            v-model="respostasCliente[pergunta.id]"
+            :options="getOpcoes(pergunta.id).map(resposta => ({ 
+              label: resposta.texto_resposta, 
+              value: resposta.id 
+            }))"
+          />
+          <p v-if="erros.includes(pergunta.id)" class="mensagem-erro">Esta pergunta precisa ser respondida.</p>
+          <hr />
+        </div>
+        <q-btn type="submit" color="primary" label="Enviar" :loading="loading" />
+      </q-form>
+      <!-- sem perguntas -->
+      <div class="sem-pergunta" v-else-if="!respostasEnviadas">
+        <h2>Nenhuma pergunta cadastrada</h2>
+>>>>>>> 440e4a0234c8604cd3d68f99300ef3c77d669896
       </div>
       <q-btn type="submit" color="primary" label="Enviar" class="button"/>
     </q-form>
@@ -48,7 +72,8 @@ export default {
       respostasCliente: [],
       respostasEnviadas: false,
       categoriaPredominante: '',
-      erros: [] // Armazena perguntas não respondidas
+      erros: [], // Armazena perguntas não respondidas
+      loading: false
     };
   },
   methods: {
@@ -67,14 +92,18 @@ export default {
         return;
       }
 
+      this.loading = true;
+
       // Valida se todas as perguntas foram respondidas
       this.perguntas.forEach((pergunta) => {
         if (!this.respostasCliente[pergunta.id]) {
+          this.loading = false;
           this.erros.push(pergunta.id);
         }
       });
 
       if (this.erros.length > 0) {
+        this.loading = false;
         alert('Por favor, responda todas as perguntas antes de enviar.');
         return;
       }
@@ -104,6 +133,7 @@ export default {
       const response = await data.json();
 
       if (data.status !== 200) {
+        this.loading = false;
         console.error('Erro ao enviar respostas:', response);
         alert('Erro ao enviar respostas');
         return;
@@ -114,6 +144,7 @@ export default {
 
       console.log('SUCESSO!!');
       this.respostasEnviadas = true;
+      this.loading = false;
     },
   },
   computed: {
