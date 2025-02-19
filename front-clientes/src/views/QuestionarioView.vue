@@ -1,45 +1,42 @@
 <template>
   <div class="fundo">
-    <q-card>
-      <!-- Perguntas -->
-      <q-form @submit.prevent="submitForm" v-if="isThereAnyPergunta && !respostasEnviadas">
-        <div v-for="pergunta in perguntas" :key="pergunta.id" class="pergunta-container" :class="{ 'erro': erros.includes(pergunta.id) }">
-          <h2>{{ pergunta.texto_pergunta }}</h2>
-          <q-option-group
-            v-if="getOpcoes(pergunta.id).length"
-            v-model="respostasCliente[pergunta.id]"
-            :options="getOpcoes(pergunta.id).map(resposta => ({ 
-              label: resposta.texto_resposta, 
-              value: resposta.id 
-            }))"
-          />
-          <p v-if="erros.includes(pergunta.id)" class="mensagem-erro">Esta pergunta precisa ser respondida.</p>
-          <hr />
-        </div>
-        <q-btn type="submit" color="primary" label="Enviar" />
-      </q-form>
-      <!-- sem perguntas -->
-      <div class="sem-pergunta" v-else-if="!respostasEnviadas">
-        <h2>Nenhuma pergunta cadastrada</h2>
+    <!-- Perguntas -->
+    <q-form @submit.prevent="submitForm" v-if="isThereAnyPergunta && !respostasEnviadas">
+      <div v-for="pergunta in perguntas" :key="pergunta.id" class="pergunta-container" :class="{ 'erro': erros.includes(pergunta.id) }">
+        <h2>{{ pergunta.texto_pergunta }}</h2>
+        <q-option-group
+          v-if="getOpcoes(pergunta.id).length"
+          v-model="respostasCliente[pergunta.id]"
+          :options="getOpcoes(pergunta.id).map(resposta => ({ 
+            label: resposta.texto_resposta, 
+            value: resposta.id 
+          }))"
+        />
+        <p v-if="erros.includes(pergunta.id)" class="mensagem-erro">Esta pergunta precisa ser respondida.</p>
+        <hr />
       </div>
-      <!-- respostas enviadas -->
-      <div class="respostas-enviadas" v-else>
-        <h2>O seu Resultado é:</h2>
-        <p><span class="verde">{{categoriaPredominante}}</span></p>
-      </div>
-    </q-card>
+      <q-btn type="submit" color="primary" label="Enviar" class="button"/>
+    </q-form>
+    <!-- sem perguntas -->
+    <div class="sem-pergunta" v-else-if="!respostasEnviadas">
+      <h2>Nenhuma pergunta cadastrada</h2>
+    </div>
+    <!-- respostas enviadas -->
+    <div class="respostas-enviadas" v-else>
+      <h2>O seu Resultado é:</h2>
+      <p><span class="verde">{{categoriaPredominante}}</span></p>
+    </div>
   </div>
 </template>
 
 <script>
 import { getPerguntas, getRespostas } from '@/api/index.js';
-import { QCard, QForm, QOptionGroup, QBtn } from 'quasar';
+import { QForm, QOptionGroup, QBtn } from 'quasar';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'MeuFormulario',
   components: {
-    QCard,
     QForm,
     QOptionGroup,
     QBtn,
@@ -147,26 +144,13 @@ export default {
 
 <style scoped>
 .fundo {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: url(~@/assets/fundo-cadastro.jpg) no-repeat center center;
-  background-size: cover;
-  overflow: auto;
+  background-color: white;
   padding: 20px;
-}
-
-.q-card {
-  width: 800px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  color: black;
-  text-align: center;
 }
 
 .pergunta-container {

@@ -32,9 +32,14 @@
         label="Cadastrar"
         type="submit"
         color="primary"
-        class="q-mt-md"
-        :disable="!enviando"
-      />
+        class="q-mt-md button"
+        :disable="sending"
+        :loading="sending"
+      >
+        <template v-if="sending" v-slot:loading>
+          <q-spinner />
+        </template>
+      </q-btn>
     </q-form>
   </q-page>
 </template>
@@ -45,6 +50,7 @@ export default {
   data() {
     return {
       enviando: true,
+      sending: false,
       cliente: {
         nome: "",
         email: "",
@@ -57,7 +63,9 @@ export default {
       return phone.replace(/\D/g, ''); // Remove qualquer coisa que não seja número
     },
     async submitForm() {
+      this.sending = true;
       if (!this.$refs.form.validate()) {
+        this.sending = false;
         return; // Se o formulário não for válido, não envia
       }
 
@@ -76,6 +84,7 @@ export default {
           })
         });
         this.enviando = true;
+        this.sending = true;
         if(response.status == 201) {
           this.enviando = false;
           const cliente = {
@@ -86,11 +95,13 @@ export default {
           }
           this.$store.dispatch('atualizarClienteAtual', cliente);
           this.$router.push(`/perguntas`);
+          this.sending = false;
       }
       else{
         throw new Error('Não foi possível realizar o cadastro do cliente');
       }
       }catch(e){
+        this.sending = false;
         this.enviando = false;
         console.log(e);
       }
@@ -106,6 +117,7 @@ export default {
 .q-form {
   max-width: 400px;
   margin: auto;
+  text-align: right;
 }
 
 </style>
