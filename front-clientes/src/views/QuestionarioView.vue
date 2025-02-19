@@ -1,6 +1,5 @@
 <template>
   <div class="fundo">
-<<<<<<< HEAD
     <!-- Perguntas -->
     <q-form @submit.prevent="submitForm" v-if="isThereAnyPergunta && !respostasEnviadas">
       <div v-for="pergunta in perguntas" :key="pergunta.id" class="pergunta-container" :class="{ 'erro': erros.includes(pergunta.id) }">
@@ -15,29 +14,6 @@
         />
         <p v-if="erros.includes(pergunta.id)" class="mensagem-erro">Esta pergunta precisa ser respondida.</p>
         <hr />
-=======
-    <q-card>
-      <!-- Perguntas -->
-      <q-form @submit.prevent="submitForm" v-if="isThereAnyPergunta && !respostasEnviadas">
-        <div v-for="pergunta in perguntas" :key="pergunta.id" class="pergunta-container" :class="{ 'erro': erros.includes(pergunta.id) }">
-          <h2>{{ pergunta.texto_pergunta }}</h2>
-          <q-option-group
-            v-if="getOpcoes(pergunta.id).length"
-            v-model="respostasCliente[pergunta.id]"
-            :options="getOpcoes(pergunta.id).map(resposta => ({ 
-              label: resposta.texto_resposta, 
-              value: resposta.id 
-            }))"
-          />
-          <p v-if="erros.includes(pergunta.id)" class="mensagem-erro">Esta pergunta precisa ser respondida.</p>
-          <hr />
-        </div>
-        <q-btn type="submit" color="primary" label="Enviar" :loading="loading" />
-      </q-form>
-      <!-- sem perguntas -->
-      <div class="sem-pergunta" v-else-if="!respostasEnviadas">
-        <h2>Nenhuma pergunta cadastrada</h2>
->>>>>>> 440e4a0234c8604cd3d68f99300ef3c77d669896
       </div>
       <q-btn type="submit" color="primary" label="Enviar" class="button"/>
     </q-form>

@@ -29,7 +29,6 @@
       />
 
       <q-btn
-        :loading = "loading"
         label="Cadastrar"
         type="submit"
         color="primary"
@@ -65,15 +64,9 @@ export default {
       return phone.replace(/\D/g, ''); // Remove qualquer coisa que não seja número
     },
     async submitForm() {
-<<<<<<< HEAD
       this.sending = true;
       if (!this.$refs.form.validate()) {
         this.sending = false;
-=======
-      this.loading = true;
-      if (!this.$refs.form.validate()) {
-        this.loading = false;
->>>>>>> 440e4a0234c8604cd3d68f99300ef3c77d669896
         return; // Se o formulário não for válido, não envia
       }
       const url = 'http://127.0.0.1:8000/api/clientes';
@@ -109,12 +102,9 @@ export default {
         throw new Error('Não foi possível realizar o cadastro do cliente');
       }
       }catch(e){
-<<<<<<< HEAD
         this.sending = false;
-=======
-        this.loading = false;
->>>>>>> 440e4a0234c8604cd3d68f99300ef3c77d669896
         this.enviando = false;
+        alert('Erro ao cadastrar cliente');
         console.log(e);
       }
      
